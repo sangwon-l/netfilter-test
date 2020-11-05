@@ -42,10 +42,15 @@ void check_URL(unsigned char* data){
         }
         // "HTTP: " is 6 bytes
         host += 6;
+        char r[2] = "\r";
+
         if(!strncmp(host, URL, strlen(URL))){
-            printf("URL blocked \n");
-            check = NF_DROP;
-            return;
+            host += strlen(URL);
+            if(!strncmp(host, r, strlen(r))){
+                printf("URL blocked \n");
+                check = NF_DROP;
+                return;
+            }
         }
 
         check = NF_ACCEPT;
